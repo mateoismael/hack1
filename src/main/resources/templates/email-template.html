@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>¡Gracias por tu compra!</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+        .header { background-color: #4a90e2; color: white; text-align: center; padding: 20px; }
+        .content { padding: 20px; }
+        .footer { text-align: center; font-size: 0.8em; color: #666; margin-top: 20px; }
+    </style>
+</head>
+<body>
+<div class="header">
+    <h1>¡Gracias por tu compra!</h1>
+</div>
+<div class="content">
+    <p>¡Hola <strong th:text="${nombre}"></strong>! Te informamos que tu compra ha sido exitosa. A continuación, te presentamos los detalles de tu compra:</p>
+    <ul>
+        <li><strong>Nombre de la película:</strong> <span th:text="${nombrePelicula}"></span></li>
+        <li><strong>Fecha de la función:</strong> <span th:text="${fechaFuncion}"></span></li>
+        <li><strong>Cantidad de entradas:</strong> <span th:text="${cantidadEntradas}"></span></li>
+        <li><strong>Precio total:</strong> <span th:text="${precioTotal}"></span></li>
+        <li><strong>ID del Ticket:</strong> <span th:text="${ticketId}"></span></li>
+    </ul>
+    <p><strong>¡Importante!</strong> No olvides llevar este correo impreso o en tu dispositivo móvil para poder ingresar a la función. ¡Te esperamos!</p>
+</div>
+<div class="footer">
+    Este es un correo automático. Por favor, no responder.
+</div>
+</body>
+</html>

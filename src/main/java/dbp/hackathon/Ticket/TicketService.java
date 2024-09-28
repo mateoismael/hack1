@@ -4,9 +4,13 @@ import dbp.hackathon.Estudiante.Estudiante;
 import dbp.hackathon.Estudiante.EstudianteRepository;
 import dbp.hackathon.Funcion.Funcion;
 import dbp.hackathon.Funcion.FuncionRepository;
+import dbp.hackathon.Ticket.Email.TicketEmailEvent;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class TicketService {
@@ -16,6 +20,9 @@ public class TicketService {
 
     @Autowired
     private EstudianteRepository estudianteRepository;
+
+    @Autowired
+    private ApplicationEventPublisher eventPublisher;
 
     @Autowired
     private FuncionRepository funcionRepository;
@@ -33,9 +40,20 @@ public class TicketService {
         ticket.setCantidad(cantidad);
         ticket.setEstado(Estado.VENDIDO);
         ticket.setFechaCompra(LocalDateTime.now());
-        ticket.setQr("GENERATED-QR-CODE");
 
-        return ticketRepository.save(ticket);
+        Ticket savedTicket = ticketRepository.save(ticket);
+
+        Map<String, Object> templateModel = new HashMap<>();
+        templateModel.put("nombre", estudiante.getName());
+        templateModel.put("nombrePelicula", funcion.getNombre());
+        templateModel.put("fechaFuncion", funcion.getFecha().toString());
+        templateModel.put("cantidadEntradas", cantidad.toString());
+        templateModel.put("precioTotal", String.valueOf(cantidad * funcion.getPrecio()));
+        templateModel.put("ticketId", savedTicket.getId().toString());
+
+        eventPublisher.publishEvent(new TicketEmailEvent(estudiante.getEmail(), "Tu entrada de cine", "email-template", templateModel));
+
+        return savedTicket;
     }
 
     public Ticket findById(Long id) {
