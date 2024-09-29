@@ -7,6 +7,7 @@
         .header { background-color: #4a90e2; color: white; text-align: center; padding: 20px; }
         .content { padding: 20px; }
         .footer { text-align: center; font-size: 0.8em; color: #666; margin-top: 20px; }
+        .qr-code { text-align: center; margin-top: 20px; }
     </style>
 </head>
 <body>
@@ -22,6 +23,10 @@
         <li><strong>Precio total:</strong> <span th:text="${precioTotal}"></span></li>
         <li><strong>ID del Ticket:</strong> <span th:text="${ticketId}"></span></li>
     </ul>
+    <div class="qr-code">
+        <p><strong>Tu código QR:</strong></p>
+        <img th:src="${qrCodeUrl}" alt="Código QR del ticket">
+    </div>
     <p><strong>¡Importante!</strong> No olvides llevar este correo impreso o en tu dispositivo móvil para poder ingresar a la función. ¡Te esperamos!</p>
 </div>
 <div class="footer">
